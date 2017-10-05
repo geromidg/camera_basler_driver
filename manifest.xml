@@ -1,0 +1,18 @@
+<package>
+  <description brief="Camera interface implementation for GigE Brasler cameras.">
+  An implementation for GigE Brasler cameras based on the camera_interface library.
+  </description>
+  <author>Dimitris Geromichalos/geromidg@gmail.com</author>
+  <license></license>
+  <url>http://</url>
+  <logo>http://</logo>
+  <depend package="base/cmake" />
+  <!--
+   To add any dependencies use the depend tag
+  <depend package="dummy-dependency-0" />
+	...
+  <depend package="dummy-dependency-n-1" />
+  <depend package="dummy-dependency-n" />
+  -->
+  <depend package="drivers/camera_interface" />
+</package>
