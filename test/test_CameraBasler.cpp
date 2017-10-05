@@ -8,7 +8,7 @@ namespace camera
     {
         CamGigEBasler camGigEBasler;
 
-        camGigEBasler.grab();
+        camGigEBasler.grabOneFrame();
     }
 
 }  // namespace camera
