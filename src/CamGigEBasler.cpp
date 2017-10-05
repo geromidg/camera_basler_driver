@@ -62,6 +62,27 @@ namespace camera
 
     bool CamGigEBasler::retrieveFrame(base::samples::frame::Frame& frame, const int timeout)
     {
+        Pylon::CGrabResultPtr ptrGrabResult;
+        camera_handle_->GrabOne(timeout, ptrGrabResult);
+        const uint8_t* pImageBuffer = (uint8_t*) ptrGrabResult->GetBuffer();
+
+        // if (ptrGrabResult->GetImageSize() != frame.image.size())
+        //     return false;
+
+        // TODO: Swap buffers
+        // frame.image.swap();
+        for (int i = 0; i < frame.image.size(); i++)
+            frame.image[i] = pImageBuffer[i];
+
+        // frame.attributes.clear();
+        // frame.setAttribute<uint16_t>("FrameCount", XXX);
+        // frame.setAttribute<uint64_t>("CameraTimeStamp", XXX);
+        // frame.time = XXX;
+        // frame.received_time = XXX;
+
+        frame.frame_mode = base::samples::frame::MODE_GRAYSCALE;
+        frame.setStatus(base::samples::frame::STATUS_VALID);
+
         return true;
     }
 
@@ -141,8 +162,8 @@ namespace camera
     }
 
     bool CamGigEBasler::getFrameSettings(base::samples::frame::frame_size_t& size,
-            base::samples::frame::frame_mode_t& mode,
-            uint8_t& color_depth)
+        base::samples::frame::frame_mode_t& mode,
+        uint8_t& color_depth)
     {
         return true;
     }
