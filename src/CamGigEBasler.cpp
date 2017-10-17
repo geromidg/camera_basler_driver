@@ -8,7 +8,14 @@ namespace camera
     {
         Pylon::PylonInitialize();
 
-        camera_handle_ = new Pylon::CInstantCamera(Pylon::CTlFactory::GetInstance().CreateFirstDevice());
+        try
+        {
+            camera_handle_ = new Pylon::CInstantCamera(Pylon::CTlFactory::GetInstance().CreateFirstDevice());
+        }
+        catch (std::runtime_error e)
+        {
+            std::cerr << "\nCould not instantiate camera: " << e.what();
+        }
     }
 
     CamGigEBasler::~CamGigEBasler(void)
@@ -45,21 +52,67 @@ namespace camera
 
     int CamGigEBasler::listCameras(std::vector<CamInfo>& cam_infos) const
     {
-        return 0;
+        int num_cameras = 0;
+        CamInfo temp_info;
+
+        Pylon::DeviceInfoList_t devices;
+        Pylon::CTlFactory::GetInstance().EnumerateDevices(devices);
+
+        if (!devices.empty())
+        {
+            Pylon::DeviceInfoList_t::const_iterator it;
+
+            for (it = devices.begin(); it != devices.end(); it++)
+            {
+                temp_info.serial_string = it->GetSerialNumber();
+                temp_info.display_name = it->GetFullName();
+                temp_info.reachable = true;
+
+                cam_infos.push_back(temp_info);
+                num_cameras++;
+            }
+        }
+
+        return num_cameras;
+    }
+
+    bool CamGigEBasler::open(void)
+    {
+        CamInfo cam;
+        AccessMode mode;
+
+        return open(cam, mode);
     }
 
     bool CamGigEBasler::open(const CamInfo& cam, const AccessMode mode)
     {
+        if (isOpen())
+            close();
+
+        try
+        {
+            camera_handle_->Open();
+        }
+        catch (std::runtime_error e)
+        {
+            std::cerr << "\nCould not open camera: " << e.what();
+
+            return false;
+        }
+
         return true;
     }
 
     bool CamGigEBasler::isOpen(void) const
     {
-        return true;
+        return camera_handle_->IsOpen();
     }
 
     bool CamGigEBasler::close(void)
     {
+        // Does not throw exceptions
+        camera_handle_->Close();
+
         return true;
     }
 
@@ -170,8 +223,8 @@ namespace camera
     }
 
     bool CamGigEBasler::getFrameSettings(base::samples::frame::frame_size_t& size,
-        base::samples::frame::frame_mode_t& mode,
-        uint8_t& color_depth)
+            base::samples::frame::frame_mode_t& mode,
+            uint8_t& color_depth)
     {
         return true;
     }

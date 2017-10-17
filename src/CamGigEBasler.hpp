@@ -20,6 +20,7 @@ namespace camera
         void setCameraSize(const int width, const int height);
 
         int listCameras(std::vector<CamInfo>& cam_infos) const;
+        bool open(void);
         bool open(const CamInfo& cam, const AccessMode mode = Master);
         bool isOpen(void) const;
         bool close(void);
