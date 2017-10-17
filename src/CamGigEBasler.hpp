@@ -2,7 +2,7 @@
 #define _CAMGIGEBASLER_H
 
 #include "camera_interface/CamInterface.h"
-#include <pylon/PylonIncludes.h> 
+#include <pylon/PylonIncludes.h>
 
 namespace camera
 {
@@ -16,6 +16,8 @@ namespace camera
         // Grabs one frame and prints its size
         // Used for testing purposes
         void grabOneFrame(const int timeout_ms = 1000);
+
+        void setCameraSize(const int width, const int height);
 
         int listCameras(std::vector<CamInfo>& cam_infos) const;
         bool open(const CamInfo& cam, const AccessMode mode = Master);
@@ -38,7 +40,7 @@ namespace camera
         double getAttrib(const double_attrib::CamAttrib attrib);
         std::string getAttrib(const str_attrib::CamAttrib attrib);
         bool isAttribSet(const enum_attrib::CamAttrib attrib);
-        bool getFrameSettings(base::samples::frame::frame_size_t& size, 
+        bool getFrameSettings(base::samples::frame::frame_size_t& size,
             base::samples::frame::frame_mode_t& mode,
             uint8_t& color_depth);
         bool triggerFrame(void);

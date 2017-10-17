@@ -35,6 +35,14 @@ namespace camera
         }
     }
 
+    void CamGigEBasler::setCameraSize(const int width, const int height)
+    {
+        GenApi::INodeMap& nodemap = camera_handle_->GetNodeMap();
+
+        GenApi::CIntegerPtr(nodemap.GetNode("Width"))->SetValue(width);
+        GenApi::CIntegerPtr(nodemap.GetNode("Height"))->SetValue(height);
+    }
+
     int CamGigEBasler::listCameras(std::vector<CamInfo>& cam_infos) const
     {
         return 0;
