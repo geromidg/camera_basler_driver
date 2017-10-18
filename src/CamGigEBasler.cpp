@@ -29,11 +29,11 @@ namespace camera
     {
         try
         {
-            Pylon::CGrabResultPtr ptrGrabResult;
+            Pylon::CGrabResultPtr result;
 
-            if (camera_handle_->GrabOne(timeout_ms, ptrGrabResult))
+            if (camera_handle_->GrabOne(timeout_ms, result))
             {
-                std::cout << "\nSize: " << ptrGrabResult->GetWidth() << "x" <<  ptrGrabResult->GetHeight();
+                std::cout << "\nSize: " << result->GetWidth() << "x" <<  result->GetHeight();
             }
         }
         catch (std::runtime_error e)
@@ -126,26 +126,37 @@ namespace camera
 
     bool CamGigEBasler::retrieveFrame(base::samples::frame::Frame& frame, const int timeout)
     {
-        Pylon::CGrabResultPtr ptrGrabResult;
-        camera_handle_->GrabOne(timeout, ptrGrabResult);
-        const uint8_t* pImageBuffer = (uint8_t*) ptrGrabResult->GetBuffer();
+        Pylon::CGrabResultPtr result;
+        camera_handle_->GrabOne(timeout, result);
 
-        // if (ptrGrabResult->GetImageSize() != frame.image.size())
-        //     return false;
+        if (result->GetImageSize() != frame.image.size())
+            return false;
 
-        // TODO: Swap buffers
-        // frame.image.swap();
-        for (int i = 0; i < frame.image.size(); i++)
-            frame.image[i] = pImageBuffer[i];
+        uint8_t* buffer = (uint8_t*)result->GetBuffer();
+        std::vector<uint8_t> new_image(buffer, buffer + result->GetImageSize());
+        frame.image.swap(new_image);
 
-        // frame.attributes.clear();
-        // frame.setAttribute<uint16_t>("FrameCount", XXX);
-        // frame.setAttribute<uint64_t>("CameraTimeStamp", XXX);
-        // frame.time = XXX;
-        // frame.received_time = XXX;
+        if (result->GrabSucceeded())
+            frame.setStatus(base::samples::frame::STATUS_VALID);
+        else
+            frame.setStatus(base::samples::frame::STATUS_INVALID);
 
-        frame.frame_mode = base::samples::frame::MODE_GRAYSCALE;
-        frame.setStatus(base::samples::frame::STATUS_VALID);
+        switch (result->GetPixelType())
+        {
+            case Pylon::EPixelType::PixelType_Mono8:
+            case Pylon::EPixelType::PixelType_Mono16:
+                frame.frame_mode = base::samples::frame::MODE_GRAYSCALE;
+                break;
+
+            case Pylon::EPixelType::PixelType_RGB16packed:
+                frame.frame_mode = base::samples::frame::MODE_RGB;
+                break;
+
+            default:
+                frame.frame_mode = base::samples::frame::MODE_UNDEFINED;
+        }
+
+        frame.time = base::Time::now();
 
         return true;
     }
