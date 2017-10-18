@@ -118,6 +118,9 @@ namespace camera
 
     bool CamGigEBasler::grab(const GrabMode mode, const int buffer_len)
     {
+        // Continuously grabbing by default
+        // TODO: Implement grab mode handling
+
         return true;
     }
 
@@ -149,57 +152,61 @@ namespace camera
 
     bool CamGigEBasler::isFrameAvailable(void)
     {
+        // There is no queue implemented to check if there are available frames
+
         return true;
     }
 
     int CamGigEBasler::skipFrames(void)
     {
+        // There is no queue implemented to skip frames
+
         return 0;
     }
 
     bool CamGigEBasler::setIpSettings(const CamInfo& cam, const IPSettings& ip_settings) const
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::setAttrib(const int_attrib::CamAttrib attrib, const int value)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::setAttrib(const double_attrib::CamAttrib attrib, const double value)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::setAttrib(const str_attrib::CamAttrib attrib, const std::string value)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::setAttrib(const enum_attrib::CamAttrib attrib)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::isAttribAvail(const int_attrib::CamAttrib attrib)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::isAttribAvail(const double_attrib::CamAttrib attrib)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::isAttribAvail(const str_attrib::CamAttrib attrib)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::isAttribAvail(const enum_attrib::CamAttrib attrib)
     {
-        return true;
+        return false;
     }
 
     int CamGigEBasler::getAttrib(const int_attrib::CamAttrib attrib)
@@ -219,24 +226,24 @@ namespace camera
 
     bool CamGigEBasler::isAttribSet(const enum_attrib::CamAttrib attrib)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::getFrameSettings(base::samples::frame::frame_size_t& size,
             base::samples::frame::frame_mode_t& mode,
             uint8_t& color_depth)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::triggerFrame(void)
     {
-        return true;
+        return false;
     }
 
     bool CamGigEBasler::setToDefault(void)
     {
-        return true;
+        return false;
     }
 
 }  // namespace camera
