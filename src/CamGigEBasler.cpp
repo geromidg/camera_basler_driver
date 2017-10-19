@@ -3,14 +3,13 @@
 namespace camera
 {
 
-    CamGigEBasler::CamGigEBasler(void) :
-        camera_handle_(NULL)
+    CamGigEBasler::CamGigEBasler(void)
     {
         Pylon::PylonInitialize();
 
         try
         {
-            camera_handle_ = new Pylon::CInstantCamera(Pylon::CTlFactory::GetInstance().CreateFirstDevice());
+            camera_handle_.reset(new Pylon::CInstantCamera(Pylon::CTlFactory::GetInstance().CreateFirstDevice()));
         }
         catch (std::runtime_error e)
         {
@@ -20,8 +19,6 @@ namespace camera
 
     CamGigEBasler::~CamGigEBasler(void)
     {
-        delete camera_handle_;
-
         Pylon::PylonTerminate();
     }
 

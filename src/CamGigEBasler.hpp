@@ -48,7 +48,7 @@ namespace camera
         bool setToDefault(void);
 
     private:
-        Pylon::CInstantCamera* camera_handle_;
+        std::unique_ptr<Pylon::CInstantCamera> camera_handle_;
     };
 
 }  // namespace camera
