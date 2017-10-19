@@ -9,7 +9,8 @@ namespace camera
 
         try
         {
-            camera_handle_.reset(new Pylon::CInstantCamera(Pylon::CTlFactory::GetInstance().CreateFirstDevice()));
+            camera_handle_.reset(new Pylon::CInstantCamera(
+                Pylon::CTlFactory::GetInstance().CreateFirstDevice()));
         }
         catch (std::runtime_error e)
         {
@@ -30,7 +31,8 @@ namespace camera
 
             if (camera_handle_->GrabOne(timeout_ms, result))
             {
-                std::cout << "\nSize: " << result->GetWidth() << "x" <<  result->GetHeight();
+                std::cout << "\nSize: " << result->GetWidth() <<
+                    "x" <<  result->GetHeight();
             }
         }
         catch (std::runtime_error e)
@@ -121,7 +123,8 @@ namespace camera
         return true;
     }
 
-    bool CamGigEBasler::retrieveFrame(base::samples::frame::Frame& frame, const int timeout)
+    bool CamGigEBasler::retrieveFrame(base::samples::frame::Frame& frame,
+        const int timeout)
     {
         Pylon::CGrabResultPtr result;
         camera_handle_->GrabOne(timeout, result);
@@ -172,22 +175,26 @@ namespace camera
         return 0;
     }
 
-    bool CamGigEBasler::setIpSettings(const CamInfo& cam, const IPSettings& ip_settings) const
+    bool CamGigEBasler::setIpSettings(const CamInfo& cam,
+        const IPSettings& ip_settings) const
     {
         return false;
     }
 
-    bool CamGigEBasler::setAttrib(const int_attrib::CamAttrib attrib, const int value)
+    bool CamGigEBasler::setAttrib(const int_attrib::CamAttrib attrib,
+        const int value)
     {
         return false;
     }
 
-    bool CamGigEBasler::setAttrib(const double_attrib::CamAttrib attrib, const double value)
+    bool CamGigEBasler::setAttrib(const double_attrib::CamAttrib attrib,
+        const double value)
     {
         return false;
     }
 
-    bool CamGigEBasler::setAttrib(const str_attrib::CamAttrib attrib, const std::string value)
+    bool CamGigEBasler::setAttrib(const str_attrib::CamAttrib attrib,
+        const std::string value)
     {
         return false;
     }
@@ -237,9 +244,10 @@ namespace camera
         return false;
     }
 
-    bool CamGigEBasler::getFrameSettings(base::samples::frame::frame_size_t& size,
-            base::samples::frame::frame_mode_t& mode,
-            uint8_t& color_depth)
+    bool CamGigEBasler::getFrameSettings(
+        base::samples::frame::frame_size_t& size,
+        base::samples::frame::frame_mode_t& mode,
+        uint8_t& color_depth)
     {
         return false;
     }
