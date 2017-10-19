@@ -9,7 +9,7 @@ namespace camera
 
         try
         {
-            camera_handle_.reset(new Pylon::CInstantCamera(
+            camera_handle_.reset(new Pylon::CBaslerGigEInstantCamera(
                 Pylon::CTlFactory::GetInstance().CreateFirstDevice()));
         }
         catch (std::runtime_error e)
@@ -27,7 +27,7 @@ namespace camera
     {
         try
         {
-            Pylon::CGrabResultPtr result;
+            Pylon::CBaslerGigEGrabResultPtr result;
 
             if (camera_handle_->GrabOne(timeout_ms, result))
             {

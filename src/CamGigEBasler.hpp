@@ -1,8 +1,10 @@
 #ifndef _CAMGIGEBASLER_H
 #define _CAMGIGEBASLER_H
 
-#include "camera_interface/CamInterface.h"
 #include <pylon/PylonIncludes.h>
+#include <pylon/gige/BaslerGigEInstantCamera.h>
+
+#include "camera_interface/CamInterface.h"
 
 namespace camera
 {
@@ -54,7 +56,7 @@ namespace camera
         bool setToDefault(void);
 
     private:
-        std::unique_ptr<Pylon::CInstantCamera> camera_handle_;
+        std::unique_ptr<Pylon::CBaslerGigEInstantCamera> camera_handle_;
     };
 
 }  // namespace camera
