@@ -45,8 +45,15 @@ namespace camera
     {
         GenApi::INodeMap& nodemap = camera_handle_->GetNodeMap();
 
-        GenApi::CIntegerPtr(nodemap.GetNode("Width"))->SetValue(width);
-        GenApi::CIntegerPtr(nodemap.GetNode("Height"))->SetValue(height);
+        GenApi::CIntegerPtr width_param = GenApi::CIntegerPtr(
+            nodemap.GetNode("Width"));
+        GenApi::CIntegerPtr height_param = GenApi::CIntegerPtr(
+            nodemap.GetNode("Height"));
+
+        width_param->SetValue(std::min(std::max(
+            width, (int)width_param->GetMin()), (int)width_param->GetMax()));
+        height_param->SetValue(std::min(std::max(
+            height, (int)height_param->GetMin()), (int)height_param->GetMax()));
     }
 
     int CamGigEBasler::listCameras(std::vector<CamInfo>& cam_infos) const
