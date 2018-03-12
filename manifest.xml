@@ -1,6 +1,6 @@
 <package>
   <description brief="Camera interface implementation for GigE Brasler cameras.">
-  An implementation for GigE Brasler cameras based on the camera_interface library.
+  An implementation for GigE Basler cameras based on the camera_interface library.
   </description>
   <author>Dimitris Geromichalos/geromidg@gmail.com</author>
   <license></license>
