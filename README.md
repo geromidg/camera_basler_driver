@@ -1,8 +1,8 @@
 camera_basler
 =============
-Camera interface implementation for GigE Brasler cameras.
+Camera interface implementation for GigE Basler cameras.
 
-An implementation for GigE Brasler cameras based on the camera_interface library.
+An implementation for GigE Basler cameras based on the camera_interface library.
 
 License
 -------
